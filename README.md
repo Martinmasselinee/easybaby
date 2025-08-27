@@ -94,6 +94,51 @@ L'application sera disponible à l'adresse [http://localhost:3000](http://localh
   - Email : `admin@easybaby.io`
   - Mot de passe : `admin123`
 
+## 🔄 Flux Complet
+
+### Admin Side (Démarrage à zéro)
+
+1. **Ajouter une ville**
+   - La ville apparaît sur le user side avec "0 hôtels, 0 produits"
+
+2. **Ajouter un hôtel dans la ville**
+   - Entrer toutes les informations relatives à l'hôtel
+   - La ville affiche "1 hôtel, 0 produits" côté utilisateur
+
+3. **Ajouter des produits**
+   - Créer des produits avec prix horaires, journaliers et caution
+   - Aucun impact immédiat côté utilisateur
+
+4. **Ajouter des produits au stock d'un hôtel**
+   - Sélectionner un hôtel et ajouter des produits à son stock
+   - La ville affiche "1 hôtel, X produits" côté utilisateur
+
+5. **Configurer le code promo de l'hôtel**
+   - Définir un code promo qui modifie la répartition des revenus
+   - Ce code sera affiché à l'utilisateur lors de la confirmation
+
+### User Side
+
+1. **Sélectionner une ville**
+   - Voir les villes avec nombre d'hôtels et produits disponibles
+
+2. **Sélectionner un produit**
+   - Voir les détails du produit (prix horaire, journalier, caution)
+
+3. **Sélectionner les dates et hôtels**
+   - Choisir les dates de retrait et retour
+   - Sélectionner les hôtels (uniquement ceux avec disponibilité)
+
+4. **Paiement**
+   - Saisir les informations personnelles
+   - Appliquer éventuellement un code promo hôtel
+   - Pré-autorisation de la caution
+
+5. **Confirmation**
+   - Recevoir un code de réservation alphanumérique
+   - Voir le code de réduction pour l'hôtel
+   - Recevoir un email de confirmation (l'hôtel également)
+
 ## 🔄 Tâches planifiées
 
 L'application utilise deux tâches cron importantes :

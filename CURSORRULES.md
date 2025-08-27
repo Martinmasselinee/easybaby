@@ -19,6 +19,7 @@
 - [Internationalisation](#-internationalisation)
 - [Tests](#-tests)
 - [Configuration & DX](#-configuration--dx)
+- [Flux Complet](#-flux-complet)
 
 ## 🔧 Stack Technique
 
@@ -53,8 +54,10 @@
 
 ### Applications
 1. **Admin**
+   - CRUD Villes
    - CRUD Hôtels
-   - Gestion des stocks
+   - CRUD Produits
+   - Gestion des stocks par hôtel
    - Gestion des réservations
    - Rapports de revenus
    - Gestion des codes promo
@@ -62,7 +65,7 @@
 2. **Utilisateur**
    - Parcours ville → produit → hôtel → dates
    - Paiement (pré-autorisation dépôt)
-   - Réception QR/email
+   - Réception code alphanumérique/email
    - Sans compte requis
 
 ### Points Clés
@@ -190,7 +193,7 @@ A.start < B.end && A.end > B.start
 
 ### Templates
 1. **Confirmation Utilisateur**
-   - QR code
+   - Code alphanumérique (ex: EZB2934)
    - Détails réservation
    - Code promo hôtel
 
@@ -207,7 +210,7 @@ A.start < B.end && A.end > B.start
 - HotelPicker
 - DateTimeRangePicker
 - CheckoutSummary
-- QRDisplay
+- CodeDisplay
 - KPIStat
 - DataTable
 
@@ -271,13 +274,71 @@ DEPOSIT_AUTH_DAYS=7
 - Monnaie: EUR
 - Messages: next-intl
 
+## 🔄 Flux Complet
+
+### Admin Side (Démarrage à zéro)
+1. **Gestion des Villes**
+   - Ajout d'une nouvelle ville
+   - Conséquence: La ville apparaît sur le user side avec "0 hôtels, 0 produits"
+
+2. **Gestion des Hôtels**
+   - Ajout d'un nouvel hôtel dans une ville
+   - Configuration des informations complètes (nom, adresse, contact, etc.)
+   - Configuration du code promo et du pourcentage de répartition des revenus
+   - Conséquence: La ville affiche "1 hôtel, 0 produits" côté utilisateur
+
+3. **Gestion des Produits**
+   - Création de nouveaux produits (nom, description, prix horaire, prix journalier, caution)
+   - Aucune conséquence immédiate côté utilisateur
+
+4. **Gestion des Stocks**
+   - Ajout de produits au stock d'un hôtel spécifique
+   - Définition des quantités disponibles
+   - Conséquence: La ville affiche "1 hôtel, X produits" côté utilisateur
+
+5. **Opérations de Suppression/Modification**
+   - Suppression/modification de villes: disparaissent/changent côté utilisateur
+   - Suppression/modification d'hôtels: disparaissent/changent côté utilisateur
+   - Suppression/modification de produits: disparaissent/changent côté utilisateur
+   - Suppression/modification de stocks: impact sur la disponibilité côté utilisateur
+
+6. **Gestion des Codes Promo**
+   - Configuration du code promo pour un hôtel
+   - Impact sur la répartition des revenus (70% hôtel / 30% plateforme si code utilisé)
+
+### User Side
+1. **Sélection de Ville**
+   - L'utilisateur voit les villes avec nombre d'hôtels et produits disponibles
+   - Sélection d'une ville pour voir les produits disponibles
+
+2. **Sélection de Produit**
+   - Affichage des produits disponibles dans la ville
+   - Sélection d'un produit pour réserver
+
+3. **Sélection d'Hôtel et Dates**
+   - Choix des hôtels pour retrait et retour (uniquement ceux avec stock disponible)
+   - Sélection des dates/heures de retrait et retour
+   - Vérification de disponibilité en temps réel
+   - Adaptation des dates disponibles selon le stock de l'hôtel
+
+4. **Paiement et Code Promo**
+   - Saisie des informations personnelles
+   - Application éventuelle du code promo hôtel
+   - Modification de la répartition des revenus selon le code utilisé
+   - Pré-autorisation de la caution
+
+5. **Confirmation**
+   - Affichage du code de réservation alphanumérique
+   - Affichage du code de réduction pour l'hôtel
+   - Envoi d'emails de confirmation à l'utilisateur et à l'hôtel
+
 ## ✅ Définition of Done V1
 
-1. Interface admin fonctionnelle
-2. Parcours utilisateur complet
+1. Interface admin fonctionnelle avec CRUD complet
+2. Parcours utilisateur complet avec vérification de disponibilité
 3. Intégration Stripe validée
-4. Gestion disponibilité robuste
-5. Démo single-hôtel Paris
+4. Envoi d'emails fonctionnel
+5. Gestion disponibilité robuste
 6. Tests critiques passants
 7. Documentation complète
 
