@@ -1,17 +1,7 @@
 {
-  "buildCommand": "cd apps/web && npm run build",
+  "buildCommand": "cd apps/web && npm install && npm run build",
   "outputDirectory": "apps/web/.next",
-  "devCommand": "cd apps/web && npm run dev",
-  "installCommand": "cd apps/web && npm install",
   "framework": "nextjs",
-  "crons": [
-    {
-      "path": "/api/admin/cron/expire-pending",
-      "schedule": "*/10 * * * *"
-    },
-    {
-      "path": "/api/admin/cron/settle-revenue",
-      "schedule": "0 0 * * *"
-    }
-  ]
+  "installCommand": "cd apps/web && npm install",
+  "rootDirectory": "apps/web"
 }
